@@ -134,6 +134,7 @@ void Interrupt (void)
 {
 
 
+
       if (flag == 1) // Check if interrupt is caused by PF4/SW1
         {
 
@@ -233,6 +234,7 @@ void Traffic_Light_only (void)
     while (1)
          {
         Interrupt();
+        
          if ((TIMER0_RIS_R & 0x01) == 1 && counter ==0 ) // If Timer A has timed out
              {
                TIMER0_ICR_R |= (1 << 0); // Clear Flag
@@ -352,12 +354,14 @@ void Traffic_Light_only (void)
 void GPIOPortF_Handler(void)
 {
 
-
+    delayMs(300) ; // for Debouncing
 
     if (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_4) // Check if interrupt is caused by PF4/SW1
     {
         GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
         GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
+
+
         flag = 1 ;
     }
     else if((GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_0) )// Check if interrupt is caused by PF0/SW2
