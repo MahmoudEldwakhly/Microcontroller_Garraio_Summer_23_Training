@@ -30,6 +30,7 @@
 int counter = 0 ;
 volatile uint32_t systickCounter = 0 ;
 volatile uint32_t printing = 0 ;
+volatile uint32_t flag = 0 ;
 
 void uart_print (void)
 {
@@ -128,10 +129,110 @@ void GPIOBinit()
     GPIO_PORTB_DEN_R |= (LED_RED_CAR_TRAFFIC2 | LED_YELLOW_CAR_TRAFFIC2 | LED_GREEN_CAR_TRAFFIC2 );
 }
 
+
+void Interrupt (void)
+{
+
+
+      if (flag == 1) // Check if interrupt is caused by PF4/SW1
+        {
+
+          flag = 0 ;
+
+            if (counter == 0 )
+            {
+            GPIO_PORTC_DATA_R=PEDESTRIAN_GREEN1;
+            GPIO_PORTE_DATA_R = LED_RED_CAR_TRAFFIC1;
+            UARTprintf("PEDESTRIAN Traffic 1 becomes green & Traffic 1 becomes red "); UARTprintf("\n");
+            UARTprintf("************************************************************ "); UARTprintf("\n");
+            delayMs(4000) ;
+            }
+            else if (counter == 1)
+            {
+                UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
+                UARTprintf("************************************************************ "); UARTprintf("\n");
+            }
+            else if ( counter == 2 || counter == 3 || counter == 4 )
+            {
+                UARTprintf("You can already pass !!  "); UARTprintf("\n");
+                UARTprintf("************************************************************ "); UARTprintf("\n");
+            }
+         }
+
+       else if (flag == 2) // Check if interrupt is caused by PF0/SW2
+        {
+
+           flag = 0 ;
+           if (counter == 3)
+           {
+                     GPIO_PORTD_DATA_R=PEDESTRIAN_GREEN2;
+                     GPIO_PORTB_DATA_R = LED_RED_CAR_TRAFFIC2;
+                     UARTprintf("PEDESTRIAN Traffic 2 becomes green & Traffic 2 becomes red "); UARTprintf("\n");
+                     UARTprintf("************************************************************ "); UARTprintf("\n");
+                     delayMs(4000) ;
+           }
+           else if (counter == 4)
+           {
+               UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
+               UARTprintf("************************************************************ "); UARTprintf("\n");
+           }
+
+           else  if ( counter == 0 || counter == 1 || counter == 5 )
+           {
+                 UARTprintf("You can already pass !!  "); UARTprintf("\n");
+                 UARTprintf("************************************************************ "); UARTprintf("\n");
+           }
+        }
+
+       else if ( flag == 3)
+       {
+
+           flag = 0 ;
+
+                     if (counter == 0 )
+                     {
+                     GPIO_PORTC_DATA_R=PEDESTRIAN_GREEN1;
+                     GPIO_PORTE_DATA_R = LED_RED_CAR_TRAFFIC1;
+                     UARTprintf("PEDESTRIAN Traffic 1 becomes green & Traffic 1 becomes red "); UARTprintf("\n");
+                     }
+                     else if (counter == 1)
+                     {
+                         UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
+                     }
+
+                     else if ( counter == 2 || counter == 3 || counter == 4 )
+                     {
+                         UARTprintf("You can already pass !!  "); UARTprintf("\n");
+                     }
+
+                     else if (counter == 3)
+                                 {
+                                           GPIO_PORTD_DATA_R=PEDESTRIAN_GREEN2;
+                                           GPIO_PORTB_DATA_R = LED_RED_CAR_TRAFFIC2;
+                                           UARTprintf("PEDESTRIAN Traffic 2 becomes green & Traffic 2 becomes red "); UARTprintf("\n");
+
+
+                                 }
+                     else if (counter == 4)
+                     {
+                                     UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
+                     }
+
+
+                     else if ( counter == 0 || counter == 1 || counter == 5 )
+                     {
+                                       UARTprintf("You can already pass !!  "); UARTprintf("\n");
+                     }
+                                       delayMs(4000) ;
+       }
+
+}
+
 void Traffic_Light_only (void)
 {
     while (1)
          {
+        Interrupt();
          if ((TIMER0_RIS_R & 0x01) == 1 && counter ==0 ) // If Timer A has timed out
              {
                TIMER0_ICR_R |= (1 << 0); // Clear Flag
@@ -239,105 +340,12 @@ void Traffic_Light_only (void)
                  counter =0 ;
                  }
 
+
      }
    }
 
 
-void Interrupt (void)
-{
 
-    delayMs(300) ;  // for Debouncing
-      if (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_4) // Check if interrupt is caused by PF4/SW1
-        {
-            GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
-            if (counter == 0 )
-            {
-            GPIO_PORTC_DATA_R=PEDESTRIAN_GREEN1;
-            GPIO_PORTE_DATA_R = LED_RED_CAR_TRAFFIC1;
-            UARTprintf("PEDESTRIAN Traffic 1 becomes green & Traffic 1 becomes red "); UARTprintf("\n");
-            UARTprintf("************************************************************ "); UARTprintf("\n");
-            delayMs(4000) ;
-            }
-            else if (counter == 1)
-            {
-                UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
-                UARTprintf("************************************************************ "); UARTprintf("\n");
-            }
-            else if ( counter == 2 || counter == 3 || counter == 4 )
-            {
-                UARTprintf("You can already pass !!  "); UARTprintf("\n");
-                UARTprintf("************************************************************ "); UARTprintf("\n");
-            }
-         }
-
-       else if (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_0) // Check if interrupt is caused by PF0/SW2
-        {
-           GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
-           if (counter == 3)
-           {
-                     GPIO_PORTD_DATA_R=PEDESTRIAN_GREEN2;
-                     GPIO_PORTB_DATA_R = LED_RED_CAR_TRAFFIC2;
-                     UARTprintf("PEDESTRIAN Traffic 2 becomes green & Traffic 2 becomes red "); UARTprintf("\n");
-                     UARTprintf("************************************************************ "); UARTprintf("\n");
-                     delayMs(4000) ;
-           }
-           else if (counter == 4)
-           {
-               UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
-               UARTprintf("************************************************************ "); UARTprintf("\n");
-           }
-
-           else  if ( counter == 0 || counter == 1 || counter == 5 )
-           {
-                 UARTprintf("You can already pass !!  "); UARTprintf("\n");
-                 UARTprintf("************************************************************ "); UARTprintf("\n");
-           }
-        }
-
-       else if ((GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_4) && (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_0) )
-       {
-           GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
-           GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
-                     if (counter == 0 )
-                     {
-                     GPIO_PORTC_DATA_R=PEDESTRIAN_GREEN1;
-                     GPIO_PORTE_DATA_R = LED_RED_CAR_TRAFFIC1;
-                     UARTprintf("PEDESTRIAN Traffic 1 becomes green & Traffic 1 becomes red "); UARTprintf("\n");
-                     }
-                     else if (counter == 1)
-                     {
-                         UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
-                     }
-
-                     else if ( counter == 2 || counter == 3 || counter == 4 )
-                     {
-                         UARTprintf("You can already pass !!  "); UARTprintf("\n");
-                     }
-
-                     else if (counter == 3)
-                                 {
-                                           GPIO_PORTD_DATA_R=PEDESTRIAN_GREEN2;
-                                           GPIO_PORTB_DATA_R = LED_RED_CAR_TRAFFIC2;
-                                           UARTprintf("PEDESTRIAN Traffic 2 becomes green & Traffic 2 becomes red "); UARTprintf("\n");
-
-
-                                 }
-                     else if (counter == 4)
-                     {
-                                     UARTprintf("Wait 2 seconds !!!  "); UARTprintf("\n");
-                     }
-
-
-                     else if ( counter == 0 || counter == 1 || counter == 5 )
-                     {
-                                       UARTprintf("You can already pass !!  "); UARTprintf("\n");
-                     }
-                                       delayMs(4000) ;
-       }
-
-
-
-}
 
 
 
@@ -345,8 +353,26 @@ void GPIOPortF_Handler(void)
 {
 
 
-    Interrupt() ;
 
+    if (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_4) // Check if interrupt is caused by PF4/SW1
+    {
+        GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
+        GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
+        flag = 1 ;
+    }
+    else if((GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_0) )// Check if interrupt is caused by PF0/SW2
+            {
+        GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
+         GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
+        flag = 2 ;
+            }
+    else if ((GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_4) && (GPIOIntStatus(GPIO_PORTF_BASE, true) & GPIO_PIN_0))
+        {
+        GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_0); // Clear the interrupt flag
+        GPIOIntClear(GPIO_PORTF_BASE, GPIO_PIN_4); // Clear the interrupt flag
+
+        flag = 3 ;
+        }
 }
 int main()
 {
@@ -358,4 +384,5 @@ int main()
     GPIODinit();
     TimerInit(1);
     Traffic_Light_only() ;
+
 }
