@@ -42,7 +42,7 @@ creating a unique project for each topic and Making a final project at the 
 Projects : 
 
 1- When any Switch of tiva is pressed Whitle led is turned on.
-2- Blinking LED every 0.5 sec, 1 sec, 2.5 sec, 10 seconds.
+2- Blinking LED every 0.5 second, 1 second, 2.5 seconds, 10 seconds using ( Systic timer , timers, Interupt ).
 3- Using keypad as a calculater (By using INTERUPT & UART).
 4- ADC - Using potentiometer -> led on and off by potentiometer and UART for printing values changed by potentiometer.
 5- Using UDMA and EEPROM.
