@@ -1,66 +1,84 @@
-# Microcontroller_Garraio_Summer_23_Training
-Summer 2023 Training Introduction to Embedded Systems on Microcontroller Tiva C Board Texas Instrument 
+# Microcontroller Garraio Summer 2023 Training (Tiva C Board)
 
-Beginning on a voyage into the world of microcontroller applications and embedded systems with the enlightening Microcontroller Garraio Summer 2023 Training.On the tiva c board, Learning different concepts and gain experience with dealing with datasheets.
+During the Summer of 2023, I took part in the **Microcontroller Garraio Training** — an amazing introduction to the world of embedded systems using the **Tiva C microcontroller** from Texas Instruments.  
+Throughout the training, I worked on many projects, learned how to read datasheets, and gained hands-on experience in real embedded applications.
 
+## Course Highlights
 
-Course Highlights:
+- **Register/API Level Programming:**  
+  Learned how to control hardware directly using register-level programming, and how to use APIs to make working with peripherals easier and more organized.
 
-1. Register/API Level Applications:
-Delve into the heart of microcontroller programming by mastering register and API-level applications. Learn to communicate directly with hardware components using registers and manipulate them through Application Programming Interfaces (APIs) to achieve precise control.
+- **Driver Libraries (TivaWare):**  
+  Explored how to use the TivaWare driver library to simplify complex hardware programming and to build more reliable and readable code.
 
-2. Driver Library Implementation:
-Grasp the essentials of driver libraries, like the TIVAWARE library, which streamlines microcontroller programming. Explore the architecture and development of driver libraries that simplify complex hardware interactions, making peripheral interfacing more accessible.
+- **GPIO (General Purpose Input/Output):**  
+  Practiced using GPIO pins by controlling LEDs, reading input from buttons, and interacting with external devices like potentiometers.
 
-3. GPIO (General Purpose Input/Output):
-Discover the adaptability of GPIO pins in microcontroller applications. Gain hands-on experience configuring GPIO pins for both input and output operations. Interface with many electronic external devices like (LEDs, potentiometer) creating interactive applications.
+- **SysTick Timer:**  
+  Used the SysTick timer to create accurate time delays and to manage simple scheduling tasks within the system.
 
-4.SysTick Timer:
-Explore the SysTick timer, an essential tool for system scheduling and timekeeping. Learn how to utilize this versatile timer to create precise timing intervals for various microcontroller tasks.
+- **GPTM (General-Purpose Timer Module):**  
+  Worked with general timers to measure time intervals, create delays, and synchronize tasks inside the microcontroller.
 
-5. GPTM (General-Purpose Timer Module):
-Understand time management within microcontroller systems through the General-Purpose Timer Module. Learn to utilize timers for tasks such as generating delays, measuring time intervals, and synchronizing system processes.
+- **I2C Communication:**  
+  Learned how to connect microcontrollers with other devices using the I2C protocol, mastering both master and slave communication.
 
-6. I2C (Inter-Integrated Circuit):
-Master the I2C communication protocol, which is essential for connecting microcontrollers and peripheral devices. Explore master-slave communication and data transmission.
+- **ADC (Analog-to-Digital Converter):**  
+  Learned how to read analog signals, like from a potentiometer, and convert them into digital values that the microcontroller could use.
 
-7. ADC (Analog-to-Digital Converter) Peripherals:
-Convert analog signals into digital data with ADC peripherals. learning it is identification and Initialization on board. Learn the concept well by making a project. 
+- **UART (Serial Communication):**  
+  Implemented UART communication to send and receive data between the microcontroller and external devices, helping to monitor the system easily.
 
-8. UART (Universal Asynchronous Receiver-Transmitter):
-Uncover the power of UART communication for serial data transmission. Explore asynchronous communication fundamentals and learn to implement UART to connect microcontrollers and external devices.
+- **EEPROM (Non-Volatile Memory):**  
+  Explored how to save and retrieve important data even after power loss by using EEPROM.
 
-9. EEPROM (Electrically Erasable Programmable Read-Only Memory):
-Dive into the world of EEPROM and understand how to store and retrieve data even when power is removed. Explore non-volatile memory solutions for preserving critical information in various applications.
+- **DMA (Direct Memory Access):**  
+  Used DMA to move data efficiently without burdening the CPU, improving overall system performance.
 
-10. DMA (Direct Memory Access):
-Discover the efficiency of DMA in data transfer. Learn how to offload data movement tasks from the CPU to dedicated DMA channels, improving system performance. Write and Read data from it
+## Outcome
 
-Outcome:
-creating a unique project for each topic and Making a final project at the end of training familiar with these various topics together.
+For each topic, I built a small project to apply it practically. At the end of the course, I combined everything I learned into a **final integrated project**.
 
-Projects : 
+---
 
-1- When any Switch of tiva is pressed Whitle led is turned on.
-2- Blinking LED every 0.5 second, 1 second, 2.5 seconds, 10 seconds using (Systic timer,Timers,Interupt).
-3- Using keypad as a calculater (By using INTERUPT & UART).
-4- ADC - Using potentiometer -> led on and off by potentiometer and UART for printing values changed by potentiometer.
-5- Using I2C Between two tiva boards (Togglling a led on tiva board by the button of the other tiva board).
-6- Using UDMA and EEPROM.
-7- Final project : 
+# Projects Completed
 
-project overview : 
+1. **Button-Controlled LED:**  
+   When any Tiva C board button is pressed, a white LED turns on.
 
-1- Set the normal traffic light:
-Use one of the timers to have the two car traffic lights working. The traffic light shall stay GREEN for 5 seconds, then YELLOW for 2 seconds, then turns RED. When one of the traffic lights is set to RED the other one has to go GREEN exactly after 1 second. The same sequence then is repeated again.
-GREEN : 5 seconds YELLOW: 2 seconds Then RED. Wait 1 second, then start the sequence on the other traffic.
-2- Implement the pedestrian traffic light:
-Use two push buttons and 4 LEDs for this system. There will be two pedestrian traffic, each with a push button and 2 LEDS: GREEN and RED. Whenever a pedestrian presses the button, the traffic light that is green shall be interrupted, and the pedestrian traffic light will be green for 2 seconds. Then it will be back to RED and the traffic light that was interrupted will resume from when it was paused.
-Example: If the car traffic light was green for 2 seconds and interrupted it will then resume the remaining 3 seconds to finish the 5 seconds.
+2. **Blinking LED with Different Intervals:**  
+   Blinking an LED every 0.5, 1, 2.5, and 10 seconds using the SysTick timer, regular timers, and interrupts.
 
-3- UART
-Send the current state of the whole system via UART whenever the system changes its state. The possible states, for example, are CARS NORTH SOUTH, CARS EAST WEST, PEDESTRIAN NORTH SOUTH, PEDESTRIAN EAST WEST.
-Cases to be handled:
-• Handle the case if two pedestrians pushed the button together in two different traffics.
-• Handle the case if the same button was being pressed more than one time during the same period of pedestrian crossing. (Period of pedestrian crossing is from when the button is pressed for the first time till the pedestrian traffic gets back to RED again.)
-• Handle the case to delay the request of the pedestrian to cross if the button was pressed after 1 second from the end of the Period of pedestrian crossing.
+3. **Keypad Calculator:**  
+   Connected a keypad and made a simple calculator that uses interrupts and UART to show results.
+
+4. **ADC Potentiometer Project:**  
+   Used a potentiometer to control the ON/OFF status of an LED and printed the changing values through UART communication.
+
+5. **I2C Between Two Tiva Boards:**  
+   Set up two Tiva C boards where pressing a button on one board toggles an LED on the other board using I2C communication.
+
+6. **UDMA and EEPROM Project:**  
+   Practiced reading and writing data using DMA and stored critical data into EEPROM.
+
+7. **Final Project: Smart Traffic Light Controller**
+
+   ### Project Overview
+
+   - **Car Traffic Lights:**  
+     Programmed two car traffic lights (north-south and east-west) to follow a sequence:  
+     - GREEN for 5 seconds  
+     - YELLOW for 2 seconds  
+     - RED for a short 1-second delay before switching to the other light
+
+   - **Pedestrian Traffic Lights:**  
+     Added two pedestrian buttons. When a pedestrian presses the button, the car traffic light that’s green will pause, and the pedestrian’s light will turn green for 2 seconds to allow safe crossing. After crossing, the car light resumes from where it was interrupted.
+
+   - **UART Status Reporting:**  
+     Every time the system state changes (for cars or pedestrians), a message is sent via UART to show what’s happening — for example, "Cars North-South Green" or "Pedestrian East-West Crossing".
+
+   ### Special Cases Handled
+
+   - If two pedestrians press the buttons at the same time, the system manages the crossings without conflict.
+   - If a pedestrian presses the button multiple times during an active crossing, the system ignores repeated requests.
+   - If a pedestrian presses the button too late (after the crossing period ends), the system queues the request until it’s safe to allow crossing again.
